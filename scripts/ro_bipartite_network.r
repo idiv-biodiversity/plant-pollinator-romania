@@ -56,32 +56,3 @@ visweb(
 
 # close the device
 dev.off()
-
-
-# plotweb -----------------------------------------------------------------
-
-# Open a PDF graphic device with desired parameters
-pdf(file = "output/network_1.pdf",
-    width = 12/2.54, 
-    height = 7/2.54, 
-    pointsize = 8)
-
-par(oma = c(bottom = 0, left = 0, top = 0, right = 0),
-    mar = c(bottom = 0, left = 0, top = 0, right = 0),
-    lwd = 0.01)
-
-plotweb(
-  web = network2,
-  labsize.low = 0.6,
-  labsize.high = 0.3,
-  y.lim = c(0.33, 1.71), # y.lim = c(0.285, 2.12),
-  x.lim = c(0.075, 2.52),
-  ybig = 0.1, # vertical distance between upper and lower boxes
-  y.width.low  = 0.05, # width of lower boxes
-  y.width.high = 0.05, # width of upper boxes
-  text.rot.low = 90,
-  text.rot.high = 90
-)
-
-# close the device
-dev.off()
