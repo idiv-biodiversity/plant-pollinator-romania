@@ -1,5 +1,5 @@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-# Create bipartite web and network 
+# Create bipartite web plot
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
@@ -9,7 +9,7 @@ library(bipartite)
 
 # Load customized visweb plotting function.
 # It has some additional flexibility to adjust graphical parameters.
-source("https://raw.githubusercontent.com/valentinitnelav/bipartite/master/R/visweb.R")
+source("https://raw.githubusercontent.com/valentinitnelav/bipartite_webs/master/R/visweb.R")
 
 
 # Read & prepare data -----------------------------------------------------
