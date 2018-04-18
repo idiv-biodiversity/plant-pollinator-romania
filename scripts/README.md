@@ -1,6 +1,6 @@
 ## Workflow for the web plot
 
-The scripts concerning map plotting are `network_check_double_naming.r` and `ro_bipartite_network.r`. Order of running the scripts matters: 
+The scripts concerning web plotting are `network_check_double_naming.r` and `ro_bipartite_network.r`. Order of running the scripts matters: 
 
 1. `network_check_double_naming.r` - checks and fixes the duplicates in species naming
 2. `ro_bipartite_network.r` - creates the bipartite web plot
