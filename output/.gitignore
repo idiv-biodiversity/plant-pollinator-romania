@@ -1,0 +1,6 @@
+inkscape
+share
+*.tiff
+
+# To push when article gets published
+pollen_limitation_study_counts_per_country_eu.csv

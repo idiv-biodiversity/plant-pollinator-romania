@@ -37,9 +37,11 @@ Temporary Items
 .apdisk
 .Rproj.user
 .Rhistory
-# Extra files/folders
-data
+
+# =========================
+# Local files/folders
+# =========================
+
 manuscript
-output
-scripts/.gitignore
 log
+README.html

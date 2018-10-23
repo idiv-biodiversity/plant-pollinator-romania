@@ -1,8 +1,11 @@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-# Make Europe heatmaps with counts of ... per country:
+# /////////////////////////////////////////////////////////////////////////
+#
+# Make heatmaps with counts of ... 
 # A) - pollen limitation papers 
 # B) - pollinator-plants networks papers
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# per country.
+#
+# /////////////////////////////////////////////////////////////////////////
 
 
 # Load packages -----------------------------------------------------------
@@ -11,25 +14,27 @@ library(data.table)
 library(sp)
 library(rgdal)
 library(classInt) # for univariate class intervals - important for legend categ
-
-# library(devtools)
-# install_github("mtennekes/tmaptools")
-# install_github("mtennekes/tmap")
-# install.packages("tmap")
 library(tmap)
 library(RColorBrewer)
 library(scales)
 
+rm(list = ls(all.names = TRUE))
+
+
 # Load data ---------------------------------------------------------------
 
-# pollinator-plants networks dataset
-dt_net <- fread("data/Pol_net_data_map2.csv", check.names = TRUE)
+# Pollinator-plants networks dataset
+dt_net <- fread("data/Supporting_Information_S4.csv", check.names = TRUE)
 
-# pollen limitation dataset for Euope + country - see get_country_pl_data.r script
-load(file = "output/dt_pl_europe.rda")
+# Pollen limitation study counts per country in Euope 
+# (see get_country_pl_data.r script)
+dt_pl_europe_agg <- fread("output/pollen_limitation_study_counts_per_country_eu.csv")
 
-# load map of Europe that comes with tmap package
-data(Europe) 
+# Load map of Europe that comes with the tmap package. 
+# NOTE - this is an options for older versions of tmap, so be sure you run the
+# 01_checkpoint.r script that installs all older versions of the packages and
+# adjusts the path to the library where the packages were installed.
+data(Europe, package = "tmap")
 
 
 # A - Pollinator-plants networks dataset ----------------------------------
@@ -57,6 +62,21 @@ Europe_merged <- sp::merge(x  = Europe,
                            by = "name",
                            all.x = TRUE)
 
+# Check values
+test <- Europe_merged@data
+test[is.na(test$network_counts), c("name", "sovereignt", "continent")]
+
+# Add zero to European polygons without data.
+# This is needed to distinguish them from Non-European ones.
+Europe_merged$network_counts <- 
+  ifelse(is.na(Europe_merged$network_counts) & Europe_merged$continent == "Europe",
+         yes = 0,
+         no = Europe_merged$network_counts)
+
+# Check values again
+test <- Europe_merged@data
+test[is.na(test$network_counts), c("name", "sovereignt", "continent")]
+
 
 # A.2 -- Make map ---------------------------------------------------------
 
@@ -72,7 +92,8 @@ map_base_elements <-
           size.lowerbound = .4) +
   tm_layout(legend.text.size  = 0.5,
             legend.title.size = 0.8,
-            # legend.position = c("RIGHT","TOP"), # This does not draw the right edge frame border for whatever reason
+            # legend.position = c("RIGHT","TOP"), 
+            # This does not draw the right edge frame border for whatever reason
             legend.just = c(1, 1),
             legend.position = c(0.990, 0.999),
             legend.frame = TRUE,
@@ -86,7 +107,7 @@ map_base_elements <-
 # A.2.2 --- Networks map --------------------------------------------------
 
 # Check counts to get an idea about legend breaks.
-# NOTE: Choosing the type of breaks has huge impact on map!
+# NOTE: Choosing the type of breaks has a significant impact on the map.
 
 hist(Europe_merged$network_counts)
 summary(unique(Europe_merged$network_counts))
@@ -109,16 +130,12 @@ Europe_merged$network_counts_label <-
       include.lowest = TRUE,
       right = FALSE)
 
-# Check values
-test <- Europe_merged@data
-View(test)
-
 # makes color palettes
 my_cols <- RColorBrewer::brewer.pal(n = 4, name = "YlGnBu") # "YlGnBu" , "BuGn"
-# check your colors
+# check the colors
 scales::show_col(my_cols)
 
-# Do the map now
+# Do the map
 map_net <-
   tm_shape(shp = Europe_merged) +
   tm_polygons(col = "network_counts_label", 
@@ -128,16 +145,13 @@ map_net <-
               palette = my_cols) +
   map_base_elements # add the previously defined base elements/layers
 
-save_tmap(map_net, "output/map_pollination_network_draft_.png", 
+save_tmap(map_net, "output/map_pollination_network.tiff", 
           units = "cm", width = 8, height = 7, dpi = 1000)
 
 
 # B - Pollen limitation dataset -------------------------------------------
 
 # B.1 -- Prepare data -----------------------------------------------------
-
-dt_pl_europe_agg <- dt_pl_europe[,  .(pl_counts = uniqueN(unique_study_number)), 
-                                 by = country_gadm_ISO ]
 
 # Spatial left join (merge) by country names.
 # This bring the pl_counts column into the Europe country polygons.
@@ -147,15 +161,12 @@ Europe_merged <- sp::merge(x  = Europe_merged,
                            by.y = "country_gadm_ISO",
                            all.x = TRUE)
 
-# Add zero to European countries without data.
-# This is needed to distinguish them from Non-European countries
-Europe_merged$pl_counts <- ifelse(is.na(Europe_merged$pl_counts) & 
-                                     !is.na(Europe_merged$network_counts),
-                                   yes = 0,
-                                   no = Europe_merged$pl_counts)
-
-test <- Europe_merged@data
-View(test)
+# Add zero to European polygons without data.
+# This is needed to distinguish them from Non-European ones.
+Europe_merged$pl_counts <- 
+  ifelse(is.na(Europe_merged$pl_counts) & Europe_merged$continent == "Europe",
+         yes = 0,
+         no = Europe_merged$pl_counts)
 
 # B.2 -- PL map -----------------------------------------------------------
 
@@ -195,5 +206,5 @@ map_pl <-
               palette = my_cols) +
   map_base_elements
 
-save_tmap(map_pl, "output/map_pl_draft_.png", 
+save_tmap(map_pl, "output/map_pollen_limitation.tiff", 
           units = "cm", width = 8, height = 7, dpi = 1000)

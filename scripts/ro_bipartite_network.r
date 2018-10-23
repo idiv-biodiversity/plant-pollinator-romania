@@ -1,11 +1,17 @@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-# Create bipartite web plot
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# /////////////////////////////////////////////////////////////////////////
+#
+# Create bipartite web plot.
+# The final graph was further edited in Inkscape (https://inkscape.org/).
+#
+# /////////////////////////////////////////////////////////////////////////
 
 
 # Load packages -----------------------------------------------------------
 
 library(bipartite)
+
+# Clean global environment
+rm(list = ls(all.names = TRUE))
 
 # Load customized web plotting function.
 # It has some additional flexibility to adjust graphical parameters.
@@ -14,18 +20,29 @@ source("https://raw.githubusercontent.com/valentinitnelav/bipartite_webs/master/
 
 # Read & prepare data -----------------------------------------------------
 
-# Check first for duplicates in names using the script network_check_double_naming.r
+network <- read.csv("data/Supporting_Information_S5.csv")
 
-network <- read.csv("data/Rom_Trans_cor_new.csv")
+# ...............................................
+
+# Defensively check for duplicates in species names.
+
+# Check for duplicates in Plants.
+which(table(network$Plants) != 1)
+# integer(0) indicates no duplicates
+
+# Check for duplicates in column names (Pollinators)
+# First, substitute dot/multiple dots with space. This is also useful further as
+# labels in the network graph.
+colnames(network) <- gsub(pattern = "\\.+", replacement = " ", x = colnames(network))
+# which name appears more than once?
+which(table(colnames(network)) != 1)
+# integer(0) indicates no duplicates
+
+# ...............................................
 
 # Prepare matrix of interactions
-network2 <- network[, -1]
-rownames(network2) <- network[, 1]
-# In column names (pollinators), substitute dot/multiple dots with space,
-# so that the dots do not trickle down to the labels in the web graph.
-colnames(network2) <- gsub(pattern = "\\.+",
-                           replacement = " ",
-                           x = colnames(network2))
+network4graph <- network[, -1]
+rownames(network4graph) <- network[, 1]
 
 
 # visweb ------------------------------------------------------------------
@@ -44,7 +61,7 @@ par(oma = c(bottom = 0, left = 0, top = 0, right = 0),
 # pred - Pollinators
 # prey - Plants
 plot_grid(
-  web = network2,
+  web = network4graph,
   type = "nested",
   labsize = 2.7,
   square = "black",
@@ -61,7 +78,7 @@ plot_grid(
   # increase axis title size if needed:
   axis.title.cex = 1, 
   # Adjusts the matrix left-right:
-  x.lim = c(-3, ncol(network2)-4.7) 
+  x.lim = c(-3, ncol(network4graph)-4.7) 
 )
 
 # close the device
