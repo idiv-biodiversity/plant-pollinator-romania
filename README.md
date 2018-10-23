@@ -21,8 +21,8 @@ For installing older version of packages, run the script `01_checkpoint.r` - it 
 
 Choropleth maps of studies done in Europe on:
 
-a) pollen limitation
-b) plant-pollinator networks
+- pollen limitation
+- plant-pollinator networks
 
 The scripts concerning map plotting are `get_country_pl_data.r` and `maps_pollen_lim.r`. 
 
@@ -33,7 +33,7 @@ The scripts concerning map plotting are `get_country_pl_data.r` and `maps_pollen
 
 **Pollen limitation study counts per country** (computed with `get_country_pl_data.r`)
 
-The long-lat coordinates from the Pollen Limitation dataset were spatially intersected with the accurate GADM shapefile (see links for data in the Load data section). For the locations that fell outside the GADM polygones, the country information was taken from the Location_Author column of the Pollen Limitation dataset. Once the records had a harmonized country code, it was possible to aggregate and count studies per countries. The table was saved in *output/pollen_limitation_study_counts_per_country_eu.csv*
+The long-lat coordinates from the Pollen Limitation dataset were spatially intersected with the accurate GADM shapefile (see links for data in the *Load data* section of `get_country_pl_data.r`). For the locations that fell outside the GADM polygones, the country information was taken from the Location_Author column of the Pollen Limitation dataset. Once the records had a harmonized country code, it was possible to aggregate and count studies per countries. The table was saved in *output/pollen_limitation_study_counts_per_country_eu.csv*
 
 **Plant-pollinator networks study counts per country**
 
