@@ -1,6 +1,6 @@
 # /////////////////////////////////////////////////////////////////////////
 #
-# Make heatmaps with counts of ... 
+# Makes heatmaps with counts of ... 
 # A) - pollen limitation papers 
 # B) - pollinator-plants networks papers
 # per country.

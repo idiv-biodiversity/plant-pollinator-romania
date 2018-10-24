@@ -1,6 +1,6 @@
 # /////////////////////////////////////////////////////////////////////////
 #
-# Extract country information (ISO2 and ISO3 codes) for mapping from pollen
+# Extracts country information (ISO2 and ISO3 codes) for mapping from the pollen
 # limitation dataset.
 # This script prepares data for the script maps_pollen_lim.r
 #
