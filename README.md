@@ -2,7 +2,7 @@
 
 This repository contains the code and data needed to reproduce the results and develop the figures from:
 
-> Joanne Bennett, Amibeth Thompson, Irina Goia, Reinart Feldmann, Valentin Stefan, Ana Bogdan, Demetra Rakosy, Mirela Beloiu, Beatrice Biro, Simon Bluemel, Milena Filip, Anna-Maria Madaj, Alina Martin, Kalisch Denisa Paula, Gwydion Scherer, Tiffany M. Knight, 2018. A review of European studies on pollination networks and pollen limitation, and a case study designed to fill in a gap
+> Joanne M Bennett, Amibeth Thompson, Irina Goia, Reinart Feldmann, Valentin Stefan, Ana Bogdan, Demetra Rakosy, Mirela Beloiu, Inge-Beatrice Biro, Simon Bluemel, Milena Filip, Anna-Maria Madaj, Alina Martin, Sarah Passonneau, Denisa Paula Kalisch, Gwydion Scherer, Tiffany M Knight; A review of European studies on pollination networks and pollen limitation, and a case study designed to fill in a gap, AoB PLANTS, ply068, [link](https://doi.org/10.1093/aobpla/ply068)
 
 [Download][1] or clone the repository then run the scripts using the `plant-pollinator-romania.Rproj` file ([R][2] and [R Studio][3] are needed)
 
